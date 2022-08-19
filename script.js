@@ -1,57 +1,95 @@
 function getComputerChoice(){
-    result = Math.floor(Math.random() * 3)
+    result = Math.floor(Math.random() * 3);
     switch (result){
         case 0:
-            return "rock"
+            return "rock";
         case 1:
-            return "paper"
+            return "paper";
         case 2:
-            return "scissors"
+            return "scissors";
     }
 }
 
 function playRound(playerSelection, computerSelection){
-    loss = "You lose! Try Again."
-    win = "You win! Well done."
-    draw = "It's a draw!"
+    loss = "loss"
+    win = "win"
+    draw = "draw"
     switch (playerSelection.toLowerCase()){ 
         case "rock":
             switch(computerSelection){
                 case "paper":
-                    return loss
+                    return loss;
                 case "rock":
-                    return draw
+                    return draw;
                 case "scissors":
-                    return win
+                    return win;
             }
         break
         case "paper":
             switch(computerSelection){
                 case "scissors":
-                    return loss
+                    return loss;
                 case "paper":
-                    return draw
+                    return draw;
                 case "rock":
-                    return win
+                    return win;
             }
-        break
+        break;
         case "scissors":
             switch(computerSelection){
                 case "rock":
-                    return loss
+                    return loss;
                 case "scissors":
-                    return draw
+                    return draw;
                 case "paper":
-                    return win
+                    return win;
             }
-        break
+        break;
         default:
-            return "Please enter either rock, paper or scissors"
+            return "Please enter either rock, paper or scissors";
     }        
 }
 
-const playerSelection = "green";
-const computerSelection = getComputerChoice()
-console.log(playerSelection)
-console.log(computerSelection)
-console.log(playRound(playerSelection, computerSelection))
+function game(){
+
+    let playerScore = 0
+    let computerScore = 0
+
+    for (let x = 0; x < 5; x++){
+        
+        let playerSelection = prompt();
+        let computerSelection = getComputerChoice();
+        result = playRound(playerSelection, computerSelection);
+        switch(result){
+            case "win": 
+                console.log(`You: ${playerSelection}. Computer: ${computerSelection}. Round Win!`);
+                playerScore = playerScore + 1;
+            break;
+            case "loss":
+                console.log(`You: ${playerSelection}. Computer: ${computerSelection}. Round loss!`);
+                computerScore = computerScore + 1;
+            break;
+            case "draw":
+                console.log(`You: ${playerSelection}. Computer: ${computerSelection}. Round draw!`);
+            break;
+        }
+
+    }
+
+    if (playerScore > computerScore){
+        console.log(`You: ${playerScore}. Computer: ${computerScore}. Congratulations, you've won the match!`)
+
+    } else if (computerScore > playerScore){
+        console.log(`You: ${playerScore}. Computer: ${computerScore}. You've lost the match, please try again!`)
+        
+    } else{
+        console.log(`You: ${playerScore}. Computer: ${computerScore}. It's a draw!`)
+    }
+
+
+}
+
+game()
+
+
+
