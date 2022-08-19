@@ -24,6 +24,7 @@ function playRound(playerSelection, computerSelection){
                 case "scissors":
                     return win
             }
+        break
         case "paper":
             switch(computerSelection){
                 case "scissors":
@@ -33,6 +34,7 @@ function playRound(playerSelection, computerSelection){
                 case "rock":
                     return win
             }
+        break
         case "scissors":
             switch(computerSelection){
                 case "rock":
@@ -42,10 +44,13 @@ function playRound(playerSelection, computerSelection){
                 case "paper":
                     return win
             }
+        break
+        default:
+            return "Please enter either rock, paper or scissors"
     }        
 }
 
-const playerSelection = "scissors";
+const playerSelection = "green";
 const computerSelection = getComputerChoice()
 console.log(playerSelection)
 console.log(computerSelection)
