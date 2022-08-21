@@ -10,7 +10,7 @@ function getComputerChoice(){
     }
 }
 
-function playRound(playerSelection, computerSelection){
+function chooseWinner(playerSelection, computerSelection){
     loss = "loss"
     win = "win"
     draw = "draw"
@@ -50,46 +50,95 @@ function playRound(playerSelection, computerSelection){
     }        
 }
 
-function game(){
+    
+let playerScore = 0
+let computerScore = 0
+const playerTrack = document.querySelector(".playerScore")
+const computerTrack = document.querySelector(".computerScore") 
+const playerContent = document.createElement("p")
+const computerContent = document.createElement("p")
 
-    let playerScore = 0
-    let computerScore = 0
 
-    for (let x = 0; x < 5; x++){
-        
-        let playerSelection = prompt();
-        let computerSelection = getComputerChoice();
-        result = playRound(playerSelection, computerSelection);
-        switch(result){
-            case "win": 
-                console.log(`You: ${playerSelection}. Computer: ${computerSelection}. Round Win!`);
-                playerScore = playerScore + 1;
-            break;
-            case "loss":
-                console.log(`You: ${playerSelection}. Computer: ${computerSelection}. Round loss!`);
-                computerScore = computerScore + 1;
-            break;
-            case "draw":
-                console.log(`You: ${playerSelection}. Computer: ${computerSelection}. Round draw!`);
-            break;
-        }
+let handler = function(e){
 
+    
+
+    let playerSelection = e.target.className
+    let computerSelection = getComputerChoice()
+    let result = chooseWinner(playerSelection, computerSelection)
+
+    switch(result){
+
+        case("win"):
+            
+            playerScore = playerScore + 1
+            playerTrack.textContent = `Player Score: ${playerScore}`
+            break;
+
+        case("loss"):
+             
+            computerScore = computerScore + 1
+            computerTrack.textContent = `Computer Score: ${computerScore}`
+            break;
+        case("draw"):
+            console.log("draw")
+            break;    
     }
 
-    if (playerScore > computerScore){
-        console.log(`You: ${playerScore}. Computer: ${computerScore}. Congratulations, you've won the match!`)
-
-    } else if (computerScore > playerScore){
-        console.log(`You: ${playerScore}. Computer: ${computerScore}. You've lost the match, please try again!`)
-        
-    } else{
-        console.log(`You: ${playerScore}. Computer: ${computerScore}. It's a draw!`)
-    }
-
+    trackScore(playerScore,computerScore, playerSelection, computerSelection)
 
 }
+const buttons = document.querySelectorAll("button")
+buttons.forEach(button => button.addEventListener('click', handler));
 
-game()
+function trackScore(playerScore, computerScore, playerSelection, computerSelection){
 
+    const container = document.querySelector(".results")
+    
+    const winnerContent = document.createElement("p")
+
+    playerContent.textContent = `Player Choice: ${playerSelection}`
+    computerContent.textContent = `Computer Choice: ${computerSelection}`
+
+    playerContent.classList.add("choice")
+    computerContent.classList.add("choice")
+
+    container.appendChild(playerContent)
+    container.appendChild(computerContent)
+
+    if (playerScore === 5){
+        winnerContent.textContent = "Player Wins"
+        container.appendChild(winnerContent)
+        finishGame(container,winnerContent)
+    } else if(computerScore ===5){
+        winnerContent.textContent = "Computer Wins"
+        container.appendChild(winnerContent)
+        finishGame(container,winnerContent)
+    }
+}
+
+function finishGame(container,winnerContent){
+
+    const againContent = document.createElement("button")
+    againContent.classList.add("again")
+    againContent.textContent = "Play Again"
+    againContent.addEventListener('click', function(e){
+
+        buttons.forEach(button => button.addEventListener('click', handler))
+        playerScore = 0
+        computerScore = 0
+        playerTrack.textContent = "Player Score: 0"
+        computerTrack.textContent = "Computer Score: 0"
+        container.removeChild(winnerContent)
+        container.removeChild(againContent)
+        container.removeChild(playerContent)
+        container.removeChild(computerContent)
+    })
+    container.appendChild(againContent)
+
+    buttons.forEach(button => button.removeEventListener('click', handler))
+
+    
+}
 
 
